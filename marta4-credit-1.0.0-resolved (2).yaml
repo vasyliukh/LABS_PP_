@@ -1,0 +1,549 @@
+---
+openapi: 3.0.1
+info:
+  title: Swagger credit Service
+  description: 'This is a server credit Service.  You can find out more about     Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).      For this sample, you can use the api key special-key to test the authorization     filters.'
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: marta.vasyliukh.knm.2020@lpnu.ua
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+- url: https://virtserver.swaggerhub.com/marta4/credit/1.0.0
+  description: SwaggerHub API Auto Mocking
+- url: https://virtserver.swaggerhub.com/marta4/nika/1.0.0
+  description: SwaggerHub API Auto Mocking
+tags:
+- name: user
+  description: Everything about your users
+  externalDocs:
+    description: Find out more
+    url: http://swagger.io
+- name: credit
+  description: Everything about your credit
+  externalDocs:
+    description: Find out more
+    url: http://swagger.io
+- name: payment
+  description: Everything about your payment
+  externalDocs:
+    description: Find out more
+    url: http://swagger.io
+paths:
+  /user:
+    post:
+      tags:
+      - user
+      summary: Create user
+      operationId: createUser
+      requestBody:
+        description: Created user object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createUser'
+        required: true
+      responses:
+        "200":
+          description: successful operation
+        "400":
+          description: Invalid username supplied
+          content: {}
+        "500":
+          description: Internal Server Error
+          content: {}
+      x-codegen-request-body-name: body
+  /user/login:
+    get:
+      tags:
+      - user
+      summary: Logs user into the system
+      operationId: loginUser
+      parameters:
+      - name: username
+        in: query
+        description: The user username for login
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: password
+        in: query
+        description: The password for login in clear text
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        "400":
+          description: Invalid username/password supplied
+          content: {}
+        "500":
+          description: Internal Server Error
+          content: {}
+  /user/logout:
+    get:
+      tags:
+      - user
+      summary: Logs out current logged in user session
+      operationId: logoutUser
+      responses:
+        default:
+          description: successful operation
+          content: {}
+  /user/{username}:
+    get:
+      tags:
+      - user
+      summary: Get user by username
+      operationId: getUserByName
+      parameters:
+      - name: username
+        in: path
+        description: Username of user who needs to be found
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        "400":
+          description: Invalid username supplied
+          content: {}
+        "404":
+          description: User not found
+          content: {}
+        "500":
+          description: Internal Server Error
+          content: {}
+    put:
+      tags:
+      - user
+      summary: Updated user
+      description: This can only be done by the logged in user.
+      operationId: updateUser
+      parameters:
+      - name: username
+        in: path
+        description: Username of user who needs to be updated
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: Updated admin object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createUser'
+        required: true
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        "400":
+          description: Invalid admin supplied
+          content: {}
+        "404":
+          description: User not found
+          content: {}
+        "500":
+          description: Internal Server Error
+          content: {}
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+      - user
+      summary: Delete user
+      description: This can only be done by the logged in user.
+      operationId: deleteUser
+      parameters:
+      - name: username
+        in: path
+        description: Username of user who needs to be deleted
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: successful operation
+        "400":
+          description: Invalid username supplied
+          content: {}
+        "404":
+          description: User not found
+          content: {}
+        "500":
+          description: Internal Server Error
+          content: {}
+  /credit:
+    post:
+      tags:
+      - credit
+      summary: Create credit
+      operationId: createCredit
+      requestBody:
+        description: Created credit
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createCredit'
+        required: true
+      responses:
+        "200":
+          description: successful operation
+        "500":
+          description: Internal Server Error
+          content: {}
+  /credit/{creditId}:
+    get:
+      tags:
+      - credit
+      summary: Find purchase credit by ID
+      description: For valid response try integer IDs with value >= 1 and <= 10.         Other values will generated exceptions
+      operationId: getCreditById
+      parameters:
+      - name: creditId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          maximum: 10
+          minimum: 1
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Credit'
+        "400":
+          description: Invalid ID supplied
+          content: {}
+        "404":
+          description: Credit not found
+          content: {}
+        "500":
+          description: Internal Server Error
+          content: {}
+    put:
+      tags:
+      - credit
+      summary: Find purchase credit by ID
+      description: For valid response try integer IDs with value >= 1 and <= 10.         Other values will generated exceptions
+      operationId: updateCreditById
+      parameters:
+      - name: creditId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: Updated credit object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createCredit'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Credit'
+        "400":
+          description: Invalid ID supplied
+          content: {}
+        "404":
+          description: Credit not found
+          content: {}
+        "500":
+          description: Internal Server Error
+          content: {}
+    delete:
+      tags:
+      - credit
+      summary: Delete credit
+      description: This can only be done by the logged in admin.
+      operationId: deleteCredit
+      parameters:
+      - name: creditId
+        in: path
+        description: Id of credit that needs to be deleted
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: successful operation
+        "400":
+          description: Invalid order id supplied
+          content: {}
+        "404":
+          description: Credit not found
+          content: {}
+        "500":
+          description: Internal Server Error
+          content: {}
+  /payment:
+    post:
+      tags:
+      - payment
+      summary: Create payment
+      operationId: createPayment
+      requestBody:
+        description: Created payment
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createPayment'
+        required: true
+      responses:
+        "200":
+          description: successful operation
+        "500":
+          description: Internal Server Error
+          content: {}
+  /payment/{paymentId}:
+    get:
+      tags:
+      - payment
+      summary: Find purchase payment by ID
+      description: For valid response try integer IDs with value >= 1 and <= 10.         Other values will generated exceptions
+      operationId: getPaymentById
+      parameters:
+      - name: paymentId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          maximum: 10
+          minimum: 1
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payment'
+        "400":
+          description: Invalid ID supplied
+          content: {}
+        "404":
+          description: Payment not found
+          content: {}
+        "500":
+          description: Internal Server Error
+          content: {}
+    put:
+      tags:
+      - payment
+      summary: Find purchase payment by ID
+      description: For valid response try integer IDs with value >= 1 and <= 10.         Other values will generated exceptions
+      operationId: updatePaymentById
+      parameters:
+      - name: paymentId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: Updated payment object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createPayment'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payment'
+        "400":
+          description: Invalid ID supplied
+          content: {}
+        "404":
+          description: Payment not found
+          content: {}
+        "500":
+          description: Internal Server Error
+          content: {}
+    delete:
+      tags:
+      - payment
+      summary: Delete payment
+      description: This can only be done by the logged in admin.
+      operationId: deletePayment
+      parameters:
+      - name: paymentId
+        in: path
+        description: Id of payment that needs to be deleted
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: successful operation
+        "400":
+          description: Invalid order id supplied
+          content: {}
+        "404":
+          description: Payment not found
+          content: {}
+        "500":
+          description: Internal Server Error
+          content: {}
+components:
+  schemas:
+    Credit:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        userId:
+          type: integer
+          format: int64
+        creditLimit:
+          type: string
+        duration:
+          type: string
+          format: date-time
+        creditCurrency:
+          type: string
+        passport number:
+          type: integer
+          format: int64
+      xml:
+        name: Credit
+    createCredit:
+      type: object
+      properties:
+        userId:
+          type: integer
+          format: int64
+        creditLimit:
+          type: string
+        duration:
+          type: string
+          format: date-time
+        creditCurrency:
+          type: string
+        passport number:
+          type: integer
+          format: int64
+      xml:
+        name: Credit
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        username:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        phone:
+          type: string
+        userStatus:
+          type: integer
+          description: User Status
+          format: int32
+      xml:
+        name: User
+    createUser:
+      type: object
+      properties:
+        username:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        phone:
+          type: string
+      xml:
+        name: createUser
+    Payment:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        userId:
+          type: integer
+          format: int64
+        creditId:
+          type: string
+        payment:
+          type: integer
+          format: int64
+        date:
+          type: string
+          format: date-time
+      xml:
+        name: Payment
+    createPayment:
+      type: object
+      properties:
+        userId:
+          type: integer
+          format: int64
+        creditId:
+          type: string
+        payment:
+          type: integer
+          format: int64
+        date:
+          type: string
+          format: date-time
+      xml:
+        name: Payment
