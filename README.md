@@ -31,3 +31,12 @@ pip install pipenv
 2.Підключити бібліотек gevent у терміналі за допомогою команди pipenv install gevent
 3.Скомпілювати код
 4.Після запуску перейшовши за адресою http://localhost:5000/api/v1/hello-world-4, ви побачити текст "Hello world! "
+
+
+
+##Lab7
+1. В alembic.ini, app.py, insertion.py прописати шлях до своєї бази даних
+   1. >Якщо бази даних не існує - створити її, пошаманити з алембіком (6 лаба) і скомпілити insertion.py для деяких полів
+2. Скомпілювати app.py
+3. Попробувати відправити запити в Postman/curl/тощо
+4. Якщо щось не виходить - написати [@lucky_lucky_cool](https://t.me/lucky_lucky_cool)

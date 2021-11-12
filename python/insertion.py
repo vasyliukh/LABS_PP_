@@ -3,7 +3,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 from schemas import Credit, User, Payment
 
-engine = create_engine('mysql+mysqlconnector://root:Wight_wolf2000@127.0.0.1:3306/marta', echo=True)
+engine = create_engine('', echo=True)
 Session = sessionmaker(bind=engine)
 session = Session()
 
